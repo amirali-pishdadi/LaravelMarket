@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertisement>
  */
-class CommentFactory extends Factory
+class AdvertisementFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +17,8 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => fake()->numberBetween(1 , 10 ),
-            "product_id" => fake()->numberBetween(2, 10),
-            "text" => fake()->paragraph , 
-
+            "ads_image" => fake()->filePath , 
+            "link" => fake()->url,
         ];
     }
 }

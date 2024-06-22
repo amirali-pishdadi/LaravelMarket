@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Order;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         // Product::factory(10)->create();
         // Order::factory(10)->create();
         // OrderItem::factory(10)->create();
-        // Comment::factory(10)->create();
+        // Comment::factory(5)->create();
+        // Advertisement::factory(10)->create();
     }
 }

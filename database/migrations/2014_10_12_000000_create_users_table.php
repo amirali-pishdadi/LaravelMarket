@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->unsignedBigInteger("phone_number");
-            $table->text("address");
-            $table->unsignedInteger("zip_code");
+            $table->unsignedBigInteger("phone_number")->nullable();
+            $table->text("address")->nullable();
+            $table->boolean("is_admin")->default(false);
+            $table->unsignedInteger("zip_code")->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->integer("category_id");
             $table->unsignedBigInteger("creator");
             $table->decimal("price" , 12);
+            $table->string("product_image");
             $table->integer("quantity");
             $table->string("brand");
             $table->integer("discount");
