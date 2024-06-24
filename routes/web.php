@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Main.Home');
 });
+
+Route::get('/single', function () {
+    return view('User.account');
+});
+
+// User 
+Route::get("register/", [UserController::class, "create"]);
+Route::post("register/", [UserController::class, "store"])->middleware("guest");
+Route::get('login/', [UserController::class, 'login']);
+Route::post('login/', [UserController::class, 'authenthicate'])->middleware("guest");
