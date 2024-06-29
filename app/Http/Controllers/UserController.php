@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,14 +48,18 @@ class UserController extends Controller
         $formFields = $request->validate([
             "name"     => "required|string|min:3",
             "email"    => "required|email|min:3",
+            "username" => "required|string|min:4",
             "password" => "required|string|min:8",
             "confirm"  => "required|string|min:8",
         ]);
 
+
         if ($formFields["password"] == $formFields["confirm"]) {
+
             User::create([
                 "name"     => $formFields["name"],
                 "email"    => $formFields["email"],
+                "username" => $formFields["username"],
                 "password" => Hash::make($formFields["password"]),
                 "is_admin" => false,
             ]);
@@ -92,9 +98,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $username)
     {
-        //
+        $user = User::where('username', $username)->first();
+
+        // Check if the user exists
+        if ($user == Auth::user()) {
+
+
+            return view("User.account", ["user" => $user , "categories" => Category::all()]);
+        } else {
+            // If the user is not found or does not match the authenticated user, return a 404 error
+            abort(404);
+        }
+
     }
 
     /**
@@ -108,9 +125,45 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        //
+        $formFields = $request->validate([
+            "name"             => "required|string|min:5",
+            "address"          => "required|string|min:5",
+            "username"         => "required|string|min:4",
+            "zip_code"         => "required|string|min:5",
+            "phone"            => "required|string|min:5",
+            "current_password" => "required|min:5",
+            "password"         => "required|min:5",
+            "confirm"          => "required|min:5",
+        ]);
+
+        $currentUser = Auth::user();
+        $user = User::where("username", $formFields["username"])->first();
+
+        if ($user && $user->email == $currentUser->email) {
+            if (Hash::check($formFields["current_password"], $currentUser->password)) {
+                // Update user information
+                $currentUser->name = $formFields['name'];
+                $currentUser->address = $formFields['address'];
+                $currentUser->username = $formFields['username'];
+                $currentUser->zip_code = $formFields['zip_code'];
+                $currentUser->phone_number = $formFields['phone'];
+                $currentUser->password = Hash::make($formFields['password']);
+
+                // Save the updated user information
+                $currentUser->save();
+                // Redirect or return a success response
+                return redirect()->back()->with('success', 'Profile updated successfully.');
+            } else {
+                abort(404);
+            }
+        } else {
+            abort(404);
+        }
+
+
+
     }
 
     /**
@@ -119,5 +172,24 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function logout(string $username)
+    {
+        // Retrieve the user with the given username from the database
+        $user = User::where('username', $username)->first();
+
+        // Check if the user exists
+        if ($user == Auth::user()) {
+
+            // Logout the authenticated user
+            Auth::logout();
+
+            // Redirect back with a success message
+            return back()->with("message", "User logouted successfully");
+        } else {
+            // If the user is not found or does not match the authenticated user, return a 404 error
+            abort(404);
+        }
     }
 }

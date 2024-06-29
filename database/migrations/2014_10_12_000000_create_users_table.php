@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->unsignedBigInteger("phone_number")->nullable();
+            $table->string("username")->unique();
             $table->text("address")->nullable();
             $table->boolean("is_admin")->default(false);
             $table->unsignedInteger("zip_code")->nullable();

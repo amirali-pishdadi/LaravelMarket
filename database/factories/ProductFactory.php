@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use Faker\Generator as Faker;
+
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +26,7 @@ class ProductFactory extends Factory
             'price'       => fake()->randomFloat(2, 10, 1000),
             'quantity'    => fake()->numberBetween(1, 100),
             'creator'     => fake()->numberBetween(1, 10),
-            'product_image' => fake()->filePath(),
+            'product_image' => fake()->imageUrl(1080, 800),
             'brand'       => fake()->company,
             'discount'    => fake()->numberBetween(1, 100),
         ];

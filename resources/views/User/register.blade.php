@@ -24,6 +24,12 @@
                             placeholder="youremail.@domain.com">
                     </div>
                     <div>
+                        <label for="username" class="text-gray-600 mb-2 block">UserName</label>
+                        <input type="text" name="username" id="username"
+                            class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                            placeholder="fulana" minlength="4">
+                    </div>
+                    <div>
                         <label for="password" class="text-gray-600 mb-2 block">Password</label>
                         <input type="password" name="password" id="password"
                             class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
@@ -38,26 +44,12 @@
                 </div>
                 <div class="mt-4">
                     <button type="submit"
-                        class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">create
+                        class="block w-full py-2 text-center  bg-primary border border-primary rounded hover:bg-transparent text-primary transition uppercase font-roboto font-medium">create
                         account</button>
                 </div>
             </form>
 
-
-            <!-- login with -->
-            <div class="mt-6 flex justify-center relative">
-                <div class="text-gray-600 uppercase px-3 bg-white z-10 relative">Or signup with</div>
-                <div class="absolute left-0 top-3 w-full border-b-2 border-gray-200"></div>
-            </div>
-            <div class="mt-4 flex gap-4">
-                <a href="#"
-                    class="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700">facebook</a>
-                <a href="#"
-                    class="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500">google</a>
-            </div>
-            <!-- ./login with -->
-
-            <p class="mt-4 text-center text-gray-600">Already have account? <a href="login.html" class="text-primary">Login
+            <p class="mt-4 text-center text-gray-600">Already have account? <a href="login" class="text-primary">Login
                     now</a></p>
         </div>
     </div>

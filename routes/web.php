@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,12 +19,21 @@ Route::get('/', function () {
     return view('Main.Home');
 });
 
-Route::get('/single', function () {
-    return view('User.account');
-});
+
 
 // User 
+Route::get('/account/{username}', [UserController::class , "show"])->middleware("auth");
 Route::get("register/", [UserController::class, "create"]);
 Route::post("register/", [UserController::class, "store"])->middleware("guest");
-Route::get('login/', [UserController::class, 'login']);
+Route::get('login/', [UserController::class, 'login'])->name("login");
 Route::post('login/', [UserController::class, 'authenthicate'])->middleware("guest");
+Route::get("logout/{username}" , [UserController::class , "logout"])->middleware("auth");
+Route::post("update-profile/" , [UserController::class , "update"])->middleware("auth");
+
+
+// Product
+Route::get("/products" , [ProductController::class , "index"]);
+
+Route::get("/product/{id}/{name}", [ProductController::class, "show"]);
+Route::post("/add-product", [ProductController::class, "store"]);
+

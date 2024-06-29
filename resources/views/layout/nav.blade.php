@@ -4,7 +4,7 @@
             <span class="text-white">
                 <i class="fa-solid fa-bars"></i>
             </span>
-            <span class="capitalize ml-2 text-white hidden">All Categories</span>
+            <span class="capitalize ml-2 text-white ">All Categories</span>
 
             <!-- dropdown -->
             <div
@@ -38,29 +38,14 @@
 
         <div class="flex items-center justify-between flex-grow md:pl-12 py-5">
             <div class="flex items-center space-x-6 capitalize">
-                <a href="index.html" class="text-gray-200 hover:text-white transition">Home</a>
-                <a href="pages/shop.html" class="text-gray-200 hover:text-white transition">Shop</a>
+                <a href="/" class="text-gray-200 hover:text-white transition">Home</a>
+                <a href="/products" class="text-gray-200 hover:text-white transition">Shop</a>
                 <a href="#" class="text-gray-200 hover:text-white transition">About us</a>
                 <a href="#" class="text-gray-200 hover:text-white transition">Contact us</a>
             </div>
-            <a href="pages/login.html" class="text-gray-200 hover:text-white transition">Login</a>
+            
         </div>
     </div>
 </nav>
 <!-- ./navbar -->
 
-<!-- banner -->
-<div class="bg-cover bg-no-repeat bg-center py-36" style="background-image: url('{{ asset('images/banner-bg.jpg') }}');">
-    <div class="container">
-        <h1 class="text-6xl text-gray-800 font-medium mb-4 capitalize">
-            best collection for <br> home decoration
-        </h1>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam <br>
-            accusantium perspiciatis, sapiente
-            magni eos dolorum ex quos dolores odio</p>
-        <div class="mt-12">
-            <a href="#" class="bg-primary border border-primary text-white px-8 py-3 font-medium 
-                rounded-md hover:bg-transparent hover:text-primary">Shop Now</a>
-        </div>
-    </div>
-</div>
