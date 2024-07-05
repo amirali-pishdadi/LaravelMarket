@@ -106,7 +106,7 @@ class UserController extends Controller
         if ($user == Auth::user()) {
 
 
-            return view("User.account", ["user" => $user , "categories" => Category::all()]);
+            return view("User.edit-profile", ["user" => $user ]);
         } else {
             // If the user is not found or does not match the authenticated user, return a 404 error
             abort(404);
