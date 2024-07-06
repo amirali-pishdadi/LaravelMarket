@@ -6,12 +6,15 @@ use App\Filament\Resources\CommentResource\Pages;
 use App\Filament\Resources\CommentResource\RelationManagers;
 use App\Models\Comment;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class CommentResource extends Resource
 {
@@ -31,15 +34,28 @@ class CommentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('product_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('text')
-                    ->required()
-                    ->columnSpanFull(),
+                Section::make("")
+                    ->schema([
+                        Select::make("product_id")
+                            ->searchable()
+                            ->label("Product")
+                            ->preload()
+                            ->relationship(name: "product", titleAttribute: "name")
+                            ->required(),
+
+                        Select::make('user_id')
+                            ->searchable()
+                            ->label("User")
+                            ->default(fn() => Auth::id())
+                            ->preload()
+                            ->relationship(name: "user", titleAttribute: "username")
+                            ->required(),
+                        Forms\Components\Textarea::make('text')
+                            ->required()
+                            ->default("Put your message here ...")
+                            ->columnSpanFull(),
+                    ])->columns(2),
+                
             ]);
     }
 
@@ -47,10 +63,14 @@ class CommentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('user.username')
+                    ->label("User")
+
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product_id')
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label("Product")
+
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -86,10 +106,10 @@ class CommentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListComments::route('/'),
+            'index'  => Pages\ListComments::route('/'),
             'create' => Pages\CreateComment::route('/create'),
-            'view' => Pages\ViewComment::route('/{record}'),
-            'edit' => Pages\EditComment::route('/{record}/edit'),
+            // 'view'   => Pages\ViewComment::route('/{record}'),
+            'edit'   => Pages\EditComment::route('/{record}/edit'),
         ];
     }
 }

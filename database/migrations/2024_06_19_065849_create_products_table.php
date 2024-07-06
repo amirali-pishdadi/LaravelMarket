@@ -14,16 +14,22 @@ return new class extends Migration {
             $table->id();
             $table->string("name");
             $table->text("description");
-            $table->integer("category_id");
-            $table->unsignedBigInteger("creator");
-            $table->decimal("price" , 12);
+            $table->unsignedBigInteger("category_id");
+            $table->unsignedBigInteger("user_id");
+            $table->decimal("price", 12, 2); 
             $table->string("product_image");
             $table->integer("quantity");
             $table->string("brand");
             $table->integer("discount");
             $table->timestamps();
 
-            $table->foreign("creator")->references("id")->on("users")->onDelete("cascade");
+            
+            $table->foreign("user_id")
+                ->references("id")
+                ->on("users")
+                ->onDelete("cascade");
+
+            
         });
     }
 

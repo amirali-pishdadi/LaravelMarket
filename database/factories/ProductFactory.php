@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'category_id' => fake()->numberBetween(1, 100),
             'price'       => fake()->randomFloat(2, 10, 1000),
             'quantity'    => fake()->numberBetween(1, 100),
-            'creator'     => fake()->numberBetween(1, 10),
+            'user_id'     => fake()->numberBetween(1, 10),
             'product_image' => fake()->imageUrl(1080, 800),
             'brand'       => fake()->company,
             'discount'    => fake()->numberBetween(1, 100),

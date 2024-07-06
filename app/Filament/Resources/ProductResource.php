@@ -6,12 +6,18 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Section as ComponentsSection;
+use Filament\Forms\Components\Select;
+use Filament\Infolists\Components\Section;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ProductResource extends Resource
 {
@@ -29,33 +35,57 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('category_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('creator')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\TextInput::make('quantity')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('brand')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('discount')
-                    ->required()
-                    ->numeric(),
+                ComponentsSection::make("Product Detail")
+                    ->description("put your product detail here")
+                    ->schema([
+
+                        Forms\Components\TextInput::make('name')->required()
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('price')
+                            ->required()
+                            ->numeric()
+                            ->prefix('$'),
+
+                        Forms\Components\TextInput::make('quantity')
+                            ->required()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('brand')
+                            ->required()
+                            ->maxLength(10),
+                        Forms\Components\TextInput::make('discount')
+                            ->required()
+                            ->prefix('%')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(99),
+                        Forms\Components\Textarea::make('description')
+                            ->required(),
+                    ])->columns(2),
+                ComponentsSection::make("Product relationships")
+                    ->schema([
+                        Select::make("category_id")
+                            ->searchable()
+                            ->label("Category")
+                            ->preload()
+                            ->relationship(name: "categories", titleAttribute: "name")
+                            ->required(),
+
+                        Select::make('user_id')
+                            ->searchable()
+                            ->label("User")
+                            ->default(fn() => Auth::id())
+                            ->preload()
+                            ->relationship(name: "user", titleAttribute: "username")
+                            ->required(),
+                    ]),
+
+
+
             ]);
     }
+
+
 
     public static function table(Table $table): Table
     {
@@ -64,10 +94,11 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('creator')
-                    ->numeric()
+                    ->label('Category')
+                    ->sortable()->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('user.username')
+                    ->label('Username')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
@@ -76,10 +107,11 @@ class ProductResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('brand')
-                    ->searchable(),
+                    ->searchable()->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('discount')
-                    ->numeric()
+                    ->numeric()->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -113,10 +145,10 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
+            'index'  => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
-            'view' => Pages\ViewProduct::route('/{record}'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            // 'view' => Pages\ViewProduct::route('/{record}'),
+            'edit'   => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 }

@@ -6,12 +6,15 @@ use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class OrderResource extends Resource
 {
@@ -30,19 +33,26 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\DateTimePicker::make('order_date')
-                    ->required(),
-                Forms\Components\TextInput::make('total_amount')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('shipping_address')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Toggle::make('is_paid')
-                    ->required(),
+                Section::make("Order Detail")
+                    ->schema([
+                        Select::make('user_id')
+                            ->searchable()
+                            ->label("User")
+                            ->default(fn() => Auth::id())
+                            ->preload()
+                            ->relationship(name: "user", titleAttribute: "username")
+                            ->required(),
+                        Forms\Components\DateTimePicker::make('order_date')
+                            ->required(),
+                        Forms\Components\TextInput::make('total_amount')
+                            ->required()
+                            ->numeric(),
+                        Forms\Components\Textarea::make('shipping_address')
+                            ->required()
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('is_paid')
+                            ->required(),
+                    ])->columns(3),
             ]);
     }
 
@@ -50,8 +60,9 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.username')
+                    ->label('Username')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('order_date')
                     ->dateTime()
@@ -94,10 +105,10 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
+            'index'  => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
-            'view' => Pages\ViewOrder::route('/{record}'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            // 'view' => Pages\ViewOrder::route('/{record}'),
+            'edit'   => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }

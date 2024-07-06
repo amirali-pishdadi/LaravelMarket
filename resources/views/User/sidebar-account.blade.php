@@ -20,6 +20,17 @@
                 </a>
             </div>
 
+            @if (Auth::check() && Auth::user()->is_admin)
+
+            <div class="space-y-1 pt-4 pl-8">
+                <a href="/admin"
+                    class="relative hover:text-primary block capitalize transition">
+                   Admin Panel
+                </a>
+            </div>
+                
+            @endif
+
 
             <div class="space-y-1 pl-8 pt-4">
                 <a href="/order/{{ Auth::user()->username }}""

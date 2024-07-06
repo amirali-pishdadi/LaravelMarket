@@ -6,6 +6,8 @@ use App\Filament\Resources\OrderItemResource\Pages;
 use App\Filament\Resources\OrderItemResource\RelationManagers;
 use App\Models\OrderItem;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -31,19 +33,32 @@ class OrderItemResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('order_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('product_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('quantity')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
+                Section::make("Order Items relationships")
+                    ->schema([
+                        Select::make("order_id")
+                            ->searchable()
+                            ->label("Order User")
+                            ->preload()
+                            ->relationship(name: "order", titleAttribute: "user_id")
+                            ->required(),
+
+                        Select::make('product_id')
+                            ->searchable()
+                            ->label("Product ")
+                            ->preload()
+                            ->relationship(name: "product", titleAttribute: "name")
+                            ->required(),
+                    ])->columns(2),
+                Section::make("Order Items Details")
+                    ->schema([
+                        Forms\Components\TextInput::make('quantity')
+                            ->required()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('price')
+                            ->required()
+                            ->numeric()
+                            ->prefix('$'),
+                    ])->columns(2),
             ]);
     }
 
@@ -51,10 +66,12 @@ class OrderItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_id')
+                Tables\Columns\TextColumn::make('order.user.username')
+                    ->label("Order User")
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product_id')
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label("Product")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('quantity')
@@ -96,10 +113,10 @@ class OrderItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrderItems::route('/'),
+            'index'  => Pages\ListOrderItems::route('/'),
             'create' => Pages\CreateOrderItem::route('/create'),
-            'view' => Pages\ViewOrderItem::route('/{record}'),
-            'edit' => Pages\EditOrderItem::route('/{record}/edit'),
+            // 'view'   => Pages\ViewOrderItem::route('/{record}'),
+            'edit'   => Pages\EditOrderItem::route('/{record}/edit'),
         ];
     }
 }

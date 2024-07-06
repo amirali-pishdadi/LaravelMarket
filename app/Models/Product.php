@@ -16,7 +16,7 @@ class Product extends Model
         'price',
         'quantity',
         'brand',
-        'creator',
+        'user_id',
         'product_image',
         'discount'
     ];
