@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
@@ -17,11 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('Main.Home');
-});
-
-
 
 // User 
 Route::get('/account/{username}', [UserController::class , "show"])->middleware("auth");
@@ -38,7 +34,8 @@ Route::get("/order/{username}", [OrderController::class, "index"])->middleware("
 Route::get("/remove-order/{id}/{product_id}", [OrderItemController::class, "destroy"])->middleware("auth");
 
 
-
+// Homa Page
+Route::get("/", [ProductController::class, "homePage"]);
 
 // Product
 Route::get("/products" , [ProductController::class , "index"]);
@@ -50,3 +47,10 @@ Route::get("/add-product", [ProductController::class, "create"])->middleware("au
 Route::get("/edit/{name}/{id}", [ProductController::class, "edit"])->middleware("auth");
 Route::post("/edit/{name}/{id}", [ProductController::class, "update"])->middleware("auth");
 
+// Ads
+Route::get("/create-ads" , [AdvertisementController::class, "create"])->middleware("admin");
+Route::post("/create-ads", [AdvertisementController::class, "store"])->middleware("admin");
+Route::get("/manage-ads" , [AdvertisementController::class, "show"])->middleware("admin");
+Route::get("/edit-ads/{id}" , [AdvertisementController::class, "edit"])->middleware("admin");
+Route::post("/edit-ads/{id}" , [AdvertisementController::class, "update"])->middleware("admin");
+Route::get("/delete-ads/{id}" , [AdvertisementController::class, "destroy"])->middleware("admin");

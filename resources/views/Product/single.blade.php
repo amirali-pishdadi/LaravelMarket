@@ -10,7 +10,7 @@
                 <div class="w-full flex">
                     @php
 
-                        $user = App\Models\User::findOrFail($product->creator);
+                        $user = App\Models\User::findOrFail($product->user_id);
 
                         $imagePath = "uploads/{$user->username}/{$product->name}/$product->product_image";
                     @endphp

@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
+
+    public function homePage()
+    {
+        $newProducts = Product::orderBy("created_at" , "desc")->take(4)->get();
+        $categories = Category::all();
+        return view("Main.Home", ["newProducts" => $newProducts , "categories" => $categories]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -66,7 +74,7 @@ class ProductController extends Controller
                     "price"         => (int) $formFields["price"],
                     "quantity"      => (int) $formFields["quantity"],
                     "brand"         => $formFields["brand"],
-                    "creator"       => $currentUser->id,
+                    "user_id"       => $currentUser->id,
                     "discount"      => (int) $formFields["discount"],
                     "category_id"   => $findCategory->id,
                     "product_image" => $fileName,
@@ -104,7 +112,7 @@ class ProductController extends Controller
         $currentUser = Auth::user();
         $originalUser = User::where("username", $username)->first();
         if ($originalUser && $currentUser->email == $originalUser->email) {
-            $userProducts = Product::where("creator", $originalUser->id)->get();
+            $userProducts = Product::where("user_id", $originalUser->id)->get();
             return view("Product.my-products", ["products" => $userProducts, "user" => $originalUser]);
         } else {
             return response()->json([
@@ -147,7 +155,7 @@ class ProductController extends Controller
             ->where('name', $name)
             ->first();
 
-        if ($product && $currentUser->id === $product->creator) {
+        if ($product && $currentUser->id === $product->user_id) {
             $oldPicturePath = public_path("uploads/$currentUser->username/$product->name/") . $product->product_image;
 
             if (!in_array($formFields["category"], $categories)) {
@@ -199,7 +207,7 @@ class ProductController extends Controller
         $product = Product::where('id', $id)
             ->where('name', $name)
             ->first();
-        if ($currentUser->id == $product->creator) {
+        if ($currentUser->id == $product->user_id) {
             $product->delete();
             return response()->json([
                 'message' => 'deleted',

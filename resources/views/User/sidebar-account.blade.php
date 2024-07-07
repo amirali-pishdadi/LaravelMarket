@@ -27,6 +27,18 @@
                     class="relative hover:text-primary block capitalize transition">
                    Admin Panel
                 </a>
+                
+            </div>
+
+            <div class="space-y-1 pt-4 pl-8">
+                <a href="/create-ads"
+                    class="relative hover:text-primary block capitalize transition">
+                   Add advertisement
+                </a>
+                <a href="/manage-ads"
+                    class="relative hover:text-primary block capitalize transition">
+                   Advertisement Management
+                </a>
             </div>
                 
             @endif
