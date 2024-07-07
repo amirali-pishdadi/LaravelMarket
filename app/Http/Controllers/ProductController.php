@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class ProductController extends Controller
     {
         $newProducts = Product::orderBy("created_at" , "desc")->take(4)->get();
         $categories = Category::all();
-        return view("Main.Home", ["newProducts" => $newProducts , "categories" => $categories]);
+        $ads = Advertisement::find(12);
+        return view("Main.Home", ["newProducts" => $newProducts , "categories" => $categories , "ads" => $ads]);
     }
 
     /**

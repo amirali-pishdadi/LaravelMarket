@@ -6,6 +6,7 @@ use App\Filament\Resources\AdvertisementResource\Pages;
 use App\Filament\Resources\AdvertisementResource\RelationManagers;
 use App\Models\Advertisement;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,8 +30,10 @@ class AdvertisementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('ads_image')
+                FileUpload::make('ads_image')
+                    ->label('Advertisement Image')
                     ->image()
+                    ->directory('uploads/ads')
                     ->required(),
                 Forms\Components\TextInput::make('link')
                     ->required()
@@ -42,7 +45,7 @@ class AdvertisementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('ads_image'),
+                Tables\Columns\TextColumn::make('ads_image'),
                 Tables\Columns\TextColumn::make('link')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -80,7 +83,7 @@ class AdvertisementResource extends Resource
         return [
             'index' => Pages\ListAdvertisements::route('/'),
             'create' => Pages\CreateAdvertisement::route('/create'),
-            'view' => Pages\ViewAdvertisement::route('/{record}'),
+            // 'view' => Pages\ViewAdvertisement::route('/{record}'),
             'edit' => Pages\EditAdvertisement::route('/{record}/edit'),
         ];
     }

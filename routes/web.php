@@ -54,3 +54,5 @@ Route::get("/manage-ads" , [AdvertisementController::class, "show"])->middleware
 Route::get("/edit-ads/{id}" , [AdvertisementController::class, "edit"])->middleware("admin");
 Route::post("/edit-ads/{id}" , [AdvertisementController::class, "update"])->middleware("admin");
 Route::get("/delete-ads/{id}" , [AdvertisementController::class, "destroy"])->middleware("admin");
+
+// Category

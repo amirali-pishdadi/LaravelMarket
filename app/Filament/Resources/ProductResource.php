@@ -50,7 +50,7 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('quantity')
                             ->required()
                             ->numeric(),
-                        Forms\Components\FileUpload::make('product_image'),
+                            Forms\Components\FileUpload::make('product_imager'),
                         Forms\Components\TextInput::make('brand')
                             ->required()
                             ->maxLength(10),
@@ -61,14 +61,12 @@ class ProductResource extends Resource
                             ->minValue(0)
                             ->maxValue(99),
                         Forms\Components\Textarea::make('description')
-                            ->required()
-                            ->columnSpanFull(),
+                            ->required(),
                     ])->columns(2),
                 ComponentsSection::make("Product relationships")
                     ->schema([
                         Forms\Components\TextInput::make("category_id")
                             ->label("Category")
-                            ->numeric()
                             ->required(),
 
                         Select::make('user_id')
