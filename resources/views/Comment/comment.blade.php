@@ -3,11 +3,11 @@
     <div class="flex flex-col items-center my-8">
         <form action="/create-comment" method="post" class="w-full">
             @csrf
-            <input class="hidden" type="number" name="product_id" value="{{ $product->id }}" />
+            <input type="hidden" name="product_id" value="{{ $product->id }}" />
             <textarea name="text" class="w-full border border-black rounded-full text-black p-4 mb-4"
                 placeholder="Write your comment here..."></textarea>
             <div class="flex justify-center">
-                <button type="submit" class="bg-red-600 text-white px-8 py-2 rounded">comment</button>
+                <button type="submit" class="bg-red-600 text-white px-8 py-2 rounded">Comment</button>
             </div>
         </form>
     </div>
@@ -16,15 +16,19 @@
         @foreach ($comments as $comment)
             <div class="border border-black p-4 rounded-lg shadow-md relative">
                 <div class="flex justify-between items-center">
-                    <p class="font-semibold">{{ $comment->user->username }} <span class="text-sm text-gray-500"> -
-                            {{ $comment->updated_at }}</span></p>
+                    <p class="font-semibold">{{ $comment->user->username }} <span
+                            class="text-sm text-gray-500"> - {{ $comment->updated_at->format('M d, Y h:i A') }}</span>
+                    </p>
                     @if (Auth::check() && (Auth::id() === $comment->user_id || Auth::user()->is_admin))
                         <div class="flex space-x-2">
-                            <button onclick="editComment(this)" class="text-blue-500 hover:text-blue-700">
-                                ✏
+                            <button onclick="editComment(this)"
+                                class="text-blue-500 hover:text-blue-700" aria-label="Edit comment">
+                                ✏️
                             </button>
-                            <a href="/delete-comment/{{ $comment->id }}" class="text-red-500 hover:text-red-700">
-                                🥛
+                            <a href="/delete-comment/{{ $comment->id }}"
+                                class="text-red-500 hover:text-red-700"
+                                aria-label="Delete comment">
+                                🗑️
                             </a>
                         </div>
                     @endif
@@ -44,8 +48,6 @@
             </div>
         @endforeach
     </div>
-
-
 </div>
 
 <script>
@@ -70,4 +72,3 @@
         commentText.style.display = 'block';
     }
 </script>
-

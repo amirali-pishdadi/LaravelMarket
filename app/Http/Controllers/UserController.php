@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,27 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function searchPage(Request $request)
+    {
+        $Productquery = Product::query();
+        $Categoryquery = Category::query();
+
+        // Apply the search filter if present
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $Productquery->where('name', 'LIKE', '%' . $searchTerm . '%');
+            $Categoryquery->where('name', 'LIKE', '%' . $searchTerm . '%');
+        }
+
+        // Execute the query and get the filtered products
+        $products = $Productquery->get();
+        $categories = $Categoryquery->get();
+
+        return view('Main.Search', ['products' => $products, 'categories' => $categories , "searchTerm" => $searchTerm]);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -106,7 +128,7 @@ class UserController extends Controller
         if ($user == Auth::user()) {
 
 
-            return view("User.edit-profile", ["user" => $user ]);
+            return view("User.edit-profile", ["user" => $user]);
         } else {
             // If the user is not found or does not match the authenticated user, return a 404 error
             abort(404);

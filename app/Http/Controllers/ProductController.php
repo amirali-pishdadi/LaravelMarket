@@ -16,39 +16,39 @@ class ProductController extends Controller
 
     public function homePage()
     {
-        $newProducts = Product::orderBy("created_at" , "desc")->take(4)->get();
+        $newProducts = Product::orderBy("created_at", "desc")->take(4)->get();
         $categories = Category::all();
         // $ads = Advertisement::find(12);
-        return view("Main.Home", ["newProducts" => $newProducts , "categories" => $categories ]);
+        return view("Main.Home", ["newProducts" => $newProducts, "categories" => $categories]);
     }
 
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    // Initialize the query for products
-    $query = Product::query();
+    {
+        // Initialize the query for products
+        $query = Product::query();
 
-    // Apply the minimum price filter if present
-    if ($request->filled('min')) {
-        $query->where('price', '>=', $request->min);
+        // Apply the minimum price filter if present
+        if ($request->filled('min')) {
+            $query->where('price', '>=', $request->min);
+        }
+
+        // Apply the maximum price filter if present
+        if ($request->filled('max')) {
+            $query->where('price', '<=', $request->max);
+        }
+
+        // Execute the query and get the filtered products
+        $products = $query->get();
+
+        // Retrieve all categories
+        $categories = Category::all();
+
+        // Return the view with the filtered products and categories
+        return view('Product.shop', ['products' => $products, 'categories' => $categories]);
     }
-
-    // Apply the maximum price filter if present
-    if ($request->filled('max')) {
-        $query->where('price', '<=', $request->max);
-    }
-
-    // Execute the query and get the filtered products
-    $products = $query->get();
-
-    // Retrieve all categories
-    $categories = Category::all();
-
-    // Return the view with the filtered products and categories
-    return view('Product.shop', ['products' => $products, 'categories' => $categories]);
-}
 
 
     /**
@@ -121,7 +121,7 @@ class ProductController extends Controller
 
         if ($product) {
             $comments = $product->comments;
-            return view("Product.single", ["product" => $product , "comments" => $comments]);
+            return view("Product.single", ["product" => $product, "comments" => $comments]);
         } else {
             abort(404);
         }

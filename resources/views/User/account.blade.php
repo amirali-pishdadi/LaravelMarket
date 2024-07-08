@@ -14,25 +14,15 @@
 
     <!-- account wrapper -->
     <div class="container flex flex-auto items-start gap-6 pt-4 pb-16">
-        <style>
-            /* Basic styling for demonstration */
-            .content {
-                display: none;
-                /* Hide all content initially */
-            }
 
-            .active {
-                display: block;
-                /* Show active content */
-            }
-        </style>
-
+        <!-- Sidebar -->
         @include('User.sidebar-account')
+        <!-- ./Sidebar -->
 
+        <!-- Content -->
         @yield('content-account')
-
+        <!-- ./Content -->
 
     </div>
-
-
+    <!-- ./account wrapper -->
 @endsection

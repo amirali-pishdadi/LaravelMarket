@@ -1,8 +1,7 @@
 <!-- sidebar -->
 <!-- drawer init and toggle -->
 <div class="text-center md:hidden">
-    <button
-        class="text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 block md:hidden"
+    <button class="text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 block md:hidden"
         type="button" data-drawer-target="drawer-example" data-drawer-show="drawer-example" aria-controls="drawer-example">
         <ion-icon name="grid-outline"></ion-icon>
     </button>
@@ -37,25 +36,25 @@
                 <div class="flex items-center">
                     <input type="checkbox" name="cat-1" id="cat-1"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="cat-1" class="text-gray-600 ml-3 cusror-pointer">Bedroom</label>
+                    <label for="cat-1" class="text-gray-600 ml-3 cursor-pointer">Bedroom</label>
                     <div class="ml-auto text-gray-600 text-sm">(15)</div>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="cat-2" id="cat-2"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="cat-2" class="text-gray-600 ml-3 cusror-pointer">Sofa</label>
+                    <label for="cat-2" class="text-gray-600 ml-3 cursor-pointer">Sofa</label>
                     <div class="ml-auto text-gray-600 text-sm">(9)</div>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="cat-3" id="cat-3"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="cat-3" class="text-gray-600 ml-3 cusror-pointer">Office</label>
+                    <label for="cat-3" class="text-gray-600 ml-3 cursor-pointer">Office</label>
                     <div class="ml-auto text-gray-600 text-sm">(21)</div>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="cat-4" id="cat-4"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="cat-4" class="text-gray-600 ml-3 cusror-pointer">Outdoor</label>
+                    <label for="cat-4" class="text-gray-600 ml-3 cursor-pointer">Outdoor</label>
                     <div class="ml-auto text-gray-600 text-sm">(10)</div>
                 </div>
             </div>
@@ -67,31 +66,31 @@
                 <div class="flex items-center">
                     <input type="checkbox" name="brand-1" id="brand-1"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="brand-1" class="text-gray-600 ml-3 cusror-pointer">Cooking Color</label>
+                    <label for="brand-1" class="text-gray-600 ml-3 cursor-pointer">Cooking Color</label>
                     <div class="ml-auto text-gray-600 text-sm">(15)</div>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="brand-2" id="brand-2"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="brand-2" class="text-gray-600 ml-3 cusror-pointer">Magniflex</label>
+                    <label for="brand-2" class="text-gray-600 ml-3 cursor-pointer">Magniflex</label>
                     <div class="ml-auto text-gray-600 text-sm">(9)</div>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="brand-3" id="brand-3"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="brand-3" class="text-gray-600 ml-3 cusror-pointer">Ashley</label>
+                    <label for="brand-3" class="text-gray-600 ml-3 cursor-pointer">Ashley</label>
                     <div class="ml-auto text-gray-600 text-sm">(21)</div>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="brand-4" id="brand-4"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="brand-4" class="text-gray-600 ml-3 cusror-pointer">M&D</label>
+                    <label for="brand-4" class="text-gray-600 ml-3 cursor-pointer">M&D</label>
                     <div class="ml-auto text-gray-600 text-sm">(10)</div>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="brand-5" id="brand-5"
                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                    <label for="brand-5" class="text-gray-600 ml-3 cusror-pointer">Olympic</label>
+                    <label for="brand-5" class="text-gray-600 ml-3 cursor-pointer">Olympic</label>
                     <div class="ml-auto text-gray-600 text-sm">(10)</div>
                 </div>
             </div>
@@ -111,7 +110,7 @@
         </div>
 
         <div class="pt-4">
-            <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">size</h3>
+            <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Size</h3>
             <div class="flex items-center gap-2">
                 <div class="size-selector">
                     <input type="radio" name="size" id="size-xs" class="hidden">
@@ -147,22 +146,21 @@
                 <div class="color-selector">
                     <input type="radio" name="color" id="red" class="hidden">
                     <label for="red"
-                        class="border border-gray-200 rounded-sm h-6 w-6  cursor-pointer shadow-sm block"
+                        class="border border-gray-200 rounded-sm h-6 w-6 cursor-pointer shadow-sm block"
                         style="background-color: #fc3d57;"></label>
                 </div>
                 <div class="color-selector">
                     <input type="radio" name="color" id="black" class="hidden">
                     <label for="black"
-                        class="border border-gray-200 rounded-sm h-6 w-6  cursor-pointer shadow-sm block"
+                        class="border border-gray-200 rounded-sm h-6 w-6 cursor-pointer shadow-sm block"
                         style="background-color: #000;"></label>
                 </div>
                 <div class="color-selector">
                     <input type="radio" name="color" id="white" class="hidden">
                     <label for="white"
-                        class="border border-gray-200 rounded-sm h-6 w-6  cursor-pointer shadow-sm block"
+                        class="border border-gray-200 rounded-sm h-6 w-6 cursor-pointer shadow-sm block"
                         style="background-color: #fff;"></label>
                 </div>
-
             </div>
         </div>
 
@@ -183,7 +181,7 @@
 </div>
 
 <!-- ./sidebar -->
-<div class="col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hiddenb hidden md:block">
+<div class="col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hidden hidden md:block">
     <div class="divide-y divide-gray-200 space-y-5">
         <div>
             <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Categories</h3>
@@ -191,11 +189,10 @@
                 @foreach ($categories as $category)
                     <div class="flex items-center">
                         <a href={{ "/category/$category->id/$category->name" }} for="cat-1"
-                            class="text-gray-600 ml-3 cusror-pointer">{{ $category->name }}</a>
+                            class="text-gray-600 ml-3 cursor-pointer">{{ $category->name }}</a>
                         <div class="ml-auto text-gray-600 text-sm">( {{ $category->products->count() }} )</div>
                     </div>
                 @endforeach
-
             </div>
         </div>
 
@@ -214,7 +211,5 @@
             </div>
             <button type="submit" class="mt-3 px-4 py-2 bg-blue-500 text-white rounded">Filter</button>
         </form>
-
-
     </div>
 </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,7 @@ Route::get('/account/{username}', [UserController::class , "show"])->middleware(
 Route::get("register/", [UserController::class, "create"]);
 Route::post("register/", [UserController::class, "store"])->middleware("guest");
 Route::get('login/', [UserController::class, 'login'])->name("login");
-Route::post('login/', [UserController::class, 'authenthicate'])->middleware("guest");
+Route::post('login/', [UserController::class, 'authenticate'])->middleware("guest");
 Route::get("logout/{username}" , [UserController::class , "logout"])->middleware("auth");
 Route::post("update-profile/" , [UserController::class , "update"])->middleware("auth");
 
@@ -38,6 +39,10 @@ Route::get("/remove-order/{id}/{product_id}", [OrderItemController::class, "dest
 
 // Homa Page
 Route::get("/", [ProductController::class, "homePage"]);
+
+// Search
+Route::get("/search", [UserController::class, "searchPage"]);
+
 
 // Product
 Route::get("/products" , [ProductController::class , "index"]);
@@ -64,4 +69,3 @@ Route::get("/category/{id}/{name}" , [CategoryController::class , "index"]);
 Route::post("/create-comment" , [CommentController::class, "store"])->middleware("auth");
 Route::post("/edit-comment/{id}" , [CommentController::class, "update"])->middleware("auth");
 Route::get("/delete-comment/{id}" , [CommentController::class, "destroy"])->middleware("auth");
-
