@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
@@ -56,3 +58,10 @@ Route::post("/edit-ads/{id}" , [AdvertisementController::class, "update"])->midd
 Route::get("/delete-ads/{id}" , [AdvertisementController::class, "destroy"])->middleware("admin");
 
 // Category
+Route::get("/category/{id}/{name}" , [CategoryController::class , "index"]);
+
+// Comment
+Route::post("/create-comment" , [CommentController::class, "store"])->middleware("auth");
+Route::post("/edit-comment/{id}" , [CommentController::class, "update"])->middleware("auth");
+Route::get("/delete-comment/{id}" , [CommentController::class, "destroy"])->middleware("auth");
+

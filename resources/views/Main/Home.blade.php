@@ -25,7 +25,7 @@
     <div class="grid grid-cols-4 gap-4">
         @foreach ($categories as $category)
             <div class="bg-gray-100 p-4 rounded-sm">
-            <a href="#" class="text-lg text-gray-800 font-roboto font-medium hover:text-blue-500 transition">{{ $category->name }}</a>
+            <a href={{ "/category/$category->id/$category->name"}} class="text-lg text-gray-800 font-roboto font-medium hover:text-blue-500 transition">{{ $category->name }}</a>
         </div>
         @endforeach
         
@@ -92,11 +92,11 @@
     <!-- ./new arrival -->
 
     <!-- ads -->
-    <div class="container pb-16">
+    {{-- <div class="container pb-16">
         <a href="#">
-            <img src="{{ asset("uploads/ads") . "/" . $ads->ads_image }}" alt="ads" class="w-full">
+            <img src="{{ asset("uploads/ads") . "/" . $ads->ads_image &&  asset("uploads/images/offer.png") }}" alt="ads" class="w-full">
         </a>
-    </div>
+    </div> --}}
     <!-- ./ads -->
 
 @endsection

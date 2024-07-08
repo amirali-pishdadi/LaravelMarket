@@ -18,20 +18,38 @@ class ProductController extends Controller
     {
         $newProducts = Product::orderBy("created_at" , "desc")->take(4)->get();
         $categories = Category::all();
-        $ads = Advertisement::find(12);
-        return view("Main.Home", ["newProducts" => $newProducts , "categories" => $categories , "ads" => $ads]);
+        // $ads = Advertisement::find(12);
+        return view("Main.Home", ["newProducts" => $newProducts , "categories" => $categories ]);
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
+{
+    // Initialize the query for products
+    $query = Product::query();
 
-    {
-        $products = Product::all();
-        
-        return view("Product.shop", ["products" => $products]);
+    // Apply the minimum price filter if present
+    if ($request->filled('min')) {
+        $query->where('price', '>=', $request->min);
     }
+
+    // Apply the maximum price filter if present
+    if ($request->filled('max')) {
+        $query->where('price', '<=', $request->max);
+    }
+
+    // Execute the query and get the filtered products
+    $products = $query->get();
+
+    // Retrieve all categories
+    $categories = Category::all();
+
+    // Return the view with the filtered products and categories
+    return view('Product.shop', ['products' => $products, 'categories' => $categories]);
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -102,7 +120,8 @@ class ProductController extends Controller
             ->first();
 
         if ($product) {
-            return view("Product.single", ["product" => $product]);
+            $comments = $product->comments;
+            return view("Product.single", ["product" => $product , "comments" => $comments]);
         } else {
             abort(404);
         }

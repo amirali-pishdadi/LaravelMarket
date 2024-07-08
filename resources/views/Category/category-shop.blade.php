@@ -37,7 +37,7 @@
                     <div class="bg-white shadow rounded overflow-hidden group">
                         <div class="relative">
                             @php
-                                
+
                                 $user = App\Models\User::findOrFail($product->user_id);
 
                                 $imagePath = "uploads/{$user->username}/{$product->name}/$product->product_image";
@@ -51,7 +51,7 @@
                             @endif
                             <div
                                 class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
-                                
+
                             </div>
                         </div>
                         <div class="pt-4 pb-3 px-4">

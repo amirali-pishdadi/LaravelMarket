@@ -11,9 +11,17 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id , $name)
     {
-        //
+        $category = Category::where("id" , $id)->where("name" , $name)->first();
+        $categories = Category::all();
+        if ($category) {
+            $products = $category->products;
+            return view("Category.category-shop", ["products" => $products , "categories" => $categories]);
+        } else {
+            abort(403);
+        }
+        
     }
 
     /**

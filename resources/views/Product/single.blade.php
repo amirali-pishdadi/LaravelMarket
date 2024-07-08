@@ -53,6 +53,6 @@
         </div>
 
         <!-- Comment Section -->
-        {{-- @extends("Comment.comment") --}}
+        @include("Comment.comment")
     </div>
 @endsection
