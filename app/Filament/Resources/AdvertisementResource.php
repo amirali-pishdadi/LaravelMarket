@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AdvertisementResource extends Resource
@@ -26,6 +27,21 @@ class AdvertisementResource extends Resource
 
     protected static ?string $navigationGroup = 'Ads Management';
 
+    protected static ?string $recordTitleAttribute = 'link';
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->link;
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ["ads_image", "link"];
+    }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -63,6 +79,7 @@ class AdvertisementResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -81,10 +98,10 @@ class AdvertisementResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAdvertisements::route('/'),
+            'index'  => Pages\ListAdvertisements::route('/'),
             'create' => Pages\CreateAdvertisement::route('/create'),
             // 'view' => Pages\ViewAdvertisement::route('/{record}'),
-            'edit' => Pages\EditAdvertisement::route('/{record}/edit'),
+            'edit'   => Pages\EditAdvertisement::route('/{record}/edit'),
         ];
     }
 }

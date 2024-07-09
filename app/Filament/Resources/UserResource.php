@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
+use App\Filament\Resources\ProductResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\RelationManagers\OrderRelationManager;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
@@ -12,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
@@ -26,6 +30,28 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'User Management';
 
+
+    protected static ?string $recordTitleAttribute = 'username';
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->username;
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ["name", "username" , "phone_number" , "zip_code" , "address" ];
+    }
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            "Admin " => $record->is_admin,
+        ];
+    }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -115,6 +141,8 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -126,7 +154,9 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class , 
+            ProductsRelationManager::class, 
+            OrderRelationManager::class
         ];
     }
 

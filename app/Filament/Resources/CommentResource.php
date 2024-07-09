@@ -6,11 +6,14 @@ use App\Filament\Resources\CommentResource\Pages;
 use App\Filament\Resources\CommentResource\RelationManagers;
 use App\Models\Comment;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -29,7 +32,10 @@ class CommentResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -55,7 +61,7 @@ class CommentResource extends Resource
                             ->default("Put your message here ...")
                             ->columnSpanFull(),
                     ])->columns(2),
-                
+
             ]);
     }
 
@@ -73,6 +79,9 @@ class CommentResource extends Resource
 
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('text')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -82,12 +91,39 @@ class CommentResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->searchable()
             ->filters([
-                //
+                SelectFilter::make("user_id")
+                    ->searchable()
+                    ->label("Filter by User")
+                    ->preload()
+                    ->relationship(name: "user", titleAttribute: "username"),
+                SelectFilter::make("product_id")
+                    ->searchable()
+                    ->label("Filter by Product")
+                    ->preload()
+                    ->relationship(name: "product", titleAttribute: "name"),
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from'),
+                        DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

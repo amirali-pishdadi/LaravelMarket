@@ -27,7 +27,7 @@ Route::get('/account/{username}', [UserController::class , "show"])->middleware(
 Route::get("register/", [UserController::class, "create"]);
 Route::post("register/", [UserController::class, "store"])->middleware("guest");
 Route::get('login/', [UserController::class, 'login'])->name("login");
-Route::post('login/', [UserController::class, 'authenticate'])->middleware("guest");
+Route::post('login/', [UserController::class, 'authenthicate'])->middleware("guest");
 Route::get("logout/{username}" , [UserController::class , "logout"])->middleware("auth");
 Route::post("update-profile/" , [UserController::class , "update"])->middleware("auth");
 

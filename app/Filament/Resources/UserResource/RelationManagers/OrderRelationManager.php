@@ -1,57 +1,23 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\UserResource\RelationManagers;
 
-use App\Filament\Resources\OrderResource\Pages;
-use App\Filament\Resources\OrderResource\RelationManagers;
-use App\Filament\Resources\OrderResource\RelationManagers\OrderItemsRelationManager;
-use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
-class OrderResource extends Resource
+class OrderRelationManager extends RelationManager
 {
-    protected static ?string $model = Order::class;
+    protected static string $relationship = 'orders';
 
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
-    protected static ?string $navigationLabel = 'Order';
-
-    protected static ?string $modelLabel = 'Orders';
-
-    protected static ?string $navigationGroup = 'Order Management';
-    protected static ?int $navigationSort = 1;
-
-    protected static ?string $recordTitleAttribute = 'user.username';
-
-    public static function getGlobalSearchResultTitle(Model $record): string
-    {
-        return $record->user->username;
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-      return ["user.username"] ; 
-    }
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        return [
-            "User" => $record->user->username , 
-        ];
-    }
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -78,9 +44,10 @@ class OrderResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('is_paid')
             ->columns([
                 Tables\Columns\TextColumn::make('user.username')
                     ->label('Username')
@@ -106,8 +73,10 @@ class OrderResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -116,22 +85,5 @@ class OrderResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            OrderItemsRelationManager::class
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index'  => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            // 'view' => Pages\ViewOrder::route('/{record}'),
-            'edit'   => Pages\EditOrder::route('/{record}/edit'),
-        ];
     }
 }

@@ -1,40 +1,22 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\OrderResource\RelationManagers;
 
-use App\Filament\Resources\OrderItemResource\Pages;
-use App\Filament\Resources\OrderItemResource\RelationManagers;
-use App\Models\OrderItem;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class OrderItemResource extends Resource
+class OrderItemsRelationManager extends RelationManager
 {
-    protected static ?string $model = OrderItem::class;
+    protected static string $relationship = 'orderItems';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-
-    protected static ?string $navigationLabel = 'OrderItem';
-
-    protected static ?string $modelLabel = 'OrderItems';
-
-    protected static ?string $navigationGroup = 'Order Management';
-    protected static ?int $navigationSort = 2;
-
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -67,14 +49,11 @@ class OrderItemResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('product')
             ->columns([
-                Tables\Columns\TextColumn::make('order.user.username')
-                    ->label("Order User")
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label("Product")
                     ->numeric()
@@ -97,8 +76,10 @@ class OrderItemResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -107,22 +88,5 @@ class OrderItemResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index'  => Pages\ListOrderItems::route('/'),
-            'create' => Pages\CreateOrderItem::route('/create'),
-            // 'view'   => Pages\ViewOrderItem::route('/{record}'),
-            'edit'   => Pages\EditOrderItem::route('/{record}/edit'),
-        ];
     }
 }
