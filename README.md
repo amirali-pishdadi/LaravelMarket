@@ -3,9 +3,10 @@
 Welcome to **LaravelMarket**, a modern e-commerce platform built with Laravel. This platform offers a range of features including product search, filtering and sorting, and a Filament admin manager.
 
 ## Table of Contents
-
 - [Features](#features)
 - [Installation](#installation)
+  - [Traditional Setup](#traditional-setup)
+  - [Docker Setup](#docker-setup)
 - [Usage](#usage)
 - [Contributing](#contributing)
   - [Todos](#todos)
@@ -20,6 +21,7 @@ Welcome to **LaravelMarket**, a modern e-commerce platform built with Laravel. T
 - 🛒 **Shopping Cart**: Add products to your cart and proceed to checkout.
 - 💬 **Comments and Reviews**: Engage with product reviews and comments.
 - 🔐 **User Authentication**: Secure user login and registration.
+- 🐳 **Docker Support**: Easy deployment and development with Docker.
 
 ## Installation 🛠️
 
@@ -27,42 +29,57 @@ Welcome to **LaravelMarket**, a modern e-commerce platform built with Laravel. T
 
 - PHP 8.0 or higher
 - Composer
+- Docker and Docker Compose (for Docker setup)
 
-### Steps
+### Traditional Setup
 
 1. Clone the repository
-
    ```bash
    git clone https://github.com/yourusername/laravelmarket.git
    cd laravelmarket
    ```
-
 2. Install dependencies
-
    ```bash
    composer install
    ```
-
 3. Copy the `.env` file and generate an application key
-
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
-
 4. Configure the `.env` file with your database and other settings.
-
 5. Run migrations and seed the database
-
    ```bash
    php artisan migrate --seed
    ```
-
 6. Start the development server
-
    ```bash
    php artisan serve
    ```
+
+### Docker Setup
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/laravelmarket.git
+   cd laravelmarket
+   ```
+2. Copy the `.env` file
+   ```bash
+   cp .env.example .env
+   ```
+3. Build and start the Docker containers
+   ```bash
+   docker-compose up --build -d
+   ```
+4. Install dependencies and set up the application
+   ```bash
+   docker-compose exec laravelmarket composer install
+   docker-compose exec laravelmarket php artisan key:generate
+   docker-compose exec laravelmarket php artisan migrate --seed
+   ```
+
+The application will be available at `http://localhost:80`.
 
 ## Usage 🚀
 
@@ -91,29 +108,24 @@ We welcome contributions from the community! To contribute to LaravelMarket, fol
 
 1. **Fork the repository:**
     Click the "Fork" button at the top of this repository.
-
 2. **Clone your forked repository:**
     ```bash
     git clone https://github.com/yourusername/laravelmarket.git
     cd laravelmarket
     ```
-
 3. **Create a new branch:**
     ```bash
     git checkout -b feature-name
     ```
-
 4. **Make your changes and commit:**
     ```bash
     git add .
     git commit -m "Add some feature"
     ```
-
 5. **Push to the branch:**
     ```bash
     git push origin feature-name
     ```
-
 6. **Create a Pull Request:**
     Open your forked repository on GitHub and click the "New Pull Request" button.
 
@@ -126,6 +138,10 @@ Here are some tasks and features that we would love to see added to LaravelMarke
   - [ ] Add user reviews and ratings.
   - [ ] Enhance the UI/UX design.
   - [ ] Optimize performance for large datasets.
+- **Docker Improvements**
+  - [ ] Add production-ready Docker configuration.
+  - [ ] Implement Docker volume for persistent data storage.
+  - [ ] Create Docker-specific development environment.
 
 ## Contact 📧
 
